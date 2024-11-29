@@ -59,7 +59,7 @@ app.post("/create-embedded-payment-link", async (req, res) => {
 
     // Tạo mã đơn hàng mới (orderCode)
     const lastOrder = await Order.findOne().sort({ orderCode: -1 }).limit(1);
-    const orderCode = lastOrder ? lastOrder.orderCode + 1 : 1;
+    const orderCode = lastOrder ? lastOrder.orderCode + 10 : 1;
 
     // Kiểm tra giá trị `orderCode` để đảm bảo nó phù hợp với yêu cầu của PayOS
     if (orderCode > 9007199254740991) {
