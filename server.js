@@ -60,8 +60,8 @@ app.post("/create-embedded-payment-link", async (req, res) => {
     // Tạo mã đơn hàng mới (orderCode)
     const lastOrder = await Order.findOne().sort({ orderCode: -1 }).limit(1);
     const orderCode = lastOrder
-        ? lastOrder.orderCode + 10 + Math.floor(Math.random() * 10000).toString().padStart(4, '0')
-        : 1;
+        ? Math.floor(Math.random() * 900000) + 100000  // Tạo số ngẫu nhiên 6 chữ số từ 100000 đến 999999
+        : 100000;  // Giá trị mặc định nếu không tìm thấy đơn hàng trước đó
 
     // Kiểm tra giá trị `orderCode` để đảm bảo nó phù hợp với yêu cầu của PayOS
     if (orderCode > 9007199254740991) {
