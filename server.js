@@ -113,6 +113,8 @@ app.post("/create-embedded-payment-link", async (req, res) => {
         await newOrder.save();
 
         console.log(`Đơn hàng đã được lưu với mã đơn hàng ${orderCode}`);
+        console.log(paymentLinkResponse, 'pay oi pay');
+
         res.send(paymentLinkResponse);
     } catch (error) {
         console.error("Lỗi khi tạo liên kết thanh toán:", error.message);
