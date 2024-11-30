@@ -89,9 +89,6 @@ app.post("/create-embedded-payment-link", async (req, res) => {
         returnUrl: `${YOUR_DOMAIN}/payment-success?orderCode=${orderCode}`,
         cancelUrl: `${YOUR_DOMAIN}/payment-cancel`,
     };
-    console.log(orderCode, 'don hang');
-    console.log(res, 'sss')
-
 
     // Tạo liên kết thanh toán
     try {
@@ -108,7 +105,7 @@ app.post("/create-embedded-payment-link", async (req, res) => {
             phoneNumber,
             amount: totalAmount,
             items,
-            status: "SUCCESS"
+            status: "PENDING"
         });
 
         await newOrder.save();
