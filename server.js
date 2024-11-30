@@ -121,16 +121,18 @@ app.post("/create-embedded-payment-link", async (req, res) => {
 });
 
 // Route để cập nhật trạng thái đơn hàng khi thanh toán thành công
-app.post("/payment-success", (req, res) => {
+app.post("/payment-success", async (req, res) => {
     const { orderCode } = req.body;
 
     console.log(orderCode, 'orderCode do troi');
 
-    Order.findOneAndUpdate({ orderCode }, { status: 'SUCCESS' }, { new: true }, (err, updatedOrder) => {
-        if (err) {
-            console.error("Lỗi khi cập nhật trạng thái đơn hàng:", err.message);
-            return res.status(500).send("Lỗi khi cập nhật trạng thái đơn hàng");
-        }
+    try {
+        // Tìm và cập nhật trạng thái đơn hàng
+        const updatedOrder = await Order.findOneAndUpdate(
+            { orderCode }, // Điều kiện tìm kiếm
+            { status: 'SUCCESS' }, // Cập nhật trường 'status'
+            { new: true } // Trả về tài liệu mới sau khi cập nhật
+        );
 
         if (updatedOrder) {
             console.log(`Trạng thái của đơn hàng ${orderCode} đã được cập nhật thành công.`);
@@ -138,8 +140,12 @@ app.post("/payment-success", (req, res) => {
         } else {
             res.status(404).send("Không tìm thấy đơn hàng với mã này");
         }
-    });
+    } catch (err) {
+        console.error("Lỗi khi cập nhật trạng thái đơn hàng:", err.message);
+        res.status(500).send("Lỗi khi cập nhật trạng thái đơn hàng");
+    }
 });
+
 
 // Route trả về danh sách tất cả các đơn hàng
 app.get("/orders", async (req, res) => {
