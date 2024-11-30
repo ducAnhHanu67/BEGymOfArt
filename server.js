@@ -87,6 +87,8 @@ app.post("/create-embedded-payment-link", async (req, res) => {
         returnUrl: `${YOUR_DOMAIN}/payment-success?orderCode=${orderCode}`,
         cancelUrl: `${YOUR_DOMAIN}/payment-cancel`,
     };
+    console.log(body, 'don hang');
+
 
     // Tạo liên kết thanh toán
     try {
