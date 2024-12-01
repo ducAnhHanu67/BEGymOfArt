@@ -158,6 +158,26 @@ app.get("/orders", async (req, res) => {
     }
 });
 
+// Route trả về số đơn hàng "SUCCESS" và "PENDING"
+app.get("/order-stats", async (req, res) => {
+    try {
+        // Tính số đơn hàng theo trạng thái "SUCCESS"
+        const successCount = await Order.countDocuments({ status: 'SUCCESS' });
+
+        // Tính số đơn hàng theo trạng thái "PENDING"
+        const pendingCount = await Order.countDocuments({ status: 'PENDING' });
+
+        // Trả về kết quả
+        res.json({
+            successCount,
+            pendingCount
+        });
+    } catch (err) {
+        console.error("Lỗi khi lấy thống kê đơn hàng:", err.message);
+        res.status(500).send("Lỗi khi lấy thống kê đơn hàng");
+    }
+});
+
 const port = process.env.PORT || 3030;
 app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);
